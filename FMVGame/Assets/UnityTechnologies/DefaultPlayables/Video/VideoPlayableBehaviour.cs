@@ -28,7 +28,7 @@ namespace UnityEngine.Timeline
 
             if (videoPlayer.isPrepared || preparing)
                 return;
-
+            
             videoPlayer.source = VideoSource.VideoClip;
             videoPlayer.clip = videoClip;
             videoPlayer.playOnAwake = false;
@@ -169,7 +169,6 @@ namespace UnityEngine.Timeline
         {
             if (videoPlayer == null || videoPlayer.clip == null)
                 return;
-
             videoPlayer.time = (clipInTime + (playable.GetTime() * videoPlayer.playbackSpeed)) % videoPlayer.clip.length;
         }
     }
