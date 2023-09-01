@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DoubleOhPew.Interaction.Core
+namespace DoubleOhPew.Interactions.Core
 {
     public abstract class InteractActionSO : ScriptableObject, IInteractAction
     {

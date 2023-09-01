@@ -10,7 +10,7 @@ public class ShotDirector : MonoBehaviour
     [SerializeField]
     private PlayableDirector director;
 
-    private void Awake()
+    private void Start()
     {
         director.playableAsset = setupTimeline;
         director.Play();

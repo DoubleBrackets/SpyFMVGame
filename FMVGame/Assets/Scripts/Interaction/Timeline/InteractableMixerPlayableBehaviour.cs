@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace DoubleOhPew.Interaction.Timeline
+namespace DoubleOhPew.Interactions.Timeline
 {
     public class InteractableMixerPlayableBehaviour : PlayableBehaviour
     {

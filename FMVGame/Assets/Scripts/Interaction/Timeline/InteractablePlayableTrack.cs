@@ -1,35 +1,15 @@
 using System;
-using UnityEngine;
-using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace DoubleOhPew.Interaction.Timeline
+namespace DoubleOhPew.Interactions.Timeline
 {
-    [Serializable, TrackClipType(typeof(InteractablePlayableAsset)), TrackBindingType(typeof(InteractionManager)), TrackColor(1, 0.776f, 0.255f)]
+    [Serializable,
+     TrackClipType(typeof(BoxInteractablePlayableAsset)),
+     TrackClipType(typeof(CapsuleInteractablePlayableAsset)),
+     TrackClipType(typeof(CircleInteractablePlayableAsset)),
+     TrackBindingType(typeof(InteractionManager)),
+     TrackColor(1, 0.776f, 0.255f)]
     public class InteractablePlayableTrack : PlayableTrack
     {
-        public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
-        {
-            var playableDirector = go.GetComponent<PlayableDirector>();
-
-            var playable = ScriptPlayable<InteractableMixerPlayableBehaviour>.Create(graph, inputCount);
-
-            var interactableMixerPlayableBehaviour = playable.GetBehaviour();
-
-            if (interactableMixerPlayableBehaviour != null)
-            {
-                interactableMixerPlayableBehaviour.Director = playableDirector;
-                interactableMixerPlayableBehaviour.Clips = GetClips();
-            }
-
-            foreach (var c in GetClips())
-            {
-                //Clips are renamed after the actionType of the clip itself
-                var playableAsset = (InteractablePlayableAsset)c.asset;
-                c.displayName = playableAsset.template.interactionId;
-            }
-
-            return playable;
-        }
     }
 }

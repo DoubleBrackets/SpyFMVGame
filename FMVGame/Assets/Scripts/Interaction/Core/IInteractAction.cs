@@ -1,4 +1,4 @@
-namespace DoubleOhPew.Interaction.Core
+namespace DoubleOhPew.Interactions.Core
 {
     public interface IInteractAction
     {
