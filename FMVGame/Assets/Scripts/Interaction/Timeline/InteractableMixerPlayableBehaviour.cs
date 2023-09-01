@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace FMVCore.Interactable
+namespace DoubleOhPew.Interaction.Timeline
 {
     public class InteractableMixerPlayableBehaviour : PlayableBehaviour
     {
@@ -11,8 +11,10 @@ namespace FMVCore.Interactable
 
         public override void PrepareFrame(Playable playable, FrameData info)
         {
-            if (Clips == null)
+            /*if (Clips == null)
+            {
                 return;
+            }
 
             var inputPort = 0;
             foreach (var clip in Clips)
@@ -27,7 +29,7 @@ namespace FMVCore.Interactable
                 }
 
                 ++inputPort;
-            }
+            }*/
         }
     }
 }

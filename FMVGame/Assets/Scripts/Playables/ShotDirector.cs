@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-public class SceneDirector : MonoBehaviour
+public class ShotDirector : MonoBehaviour
 {
     [SerializeField]
     private TimelineAsset setupTimeline;

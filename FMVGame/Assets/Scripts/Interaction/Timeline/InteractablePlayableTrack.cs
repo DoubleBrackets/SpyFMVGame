@@ -3,12 +3,9 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace FMVCore.Interactable
+namespace DoubleOhPew.Interaction.Timeline
 {
-    [Serializable]
-    [TrackClipType(typeof(InteractablePlayableAsset))]
-    [TrackBindingType(typeof(InteractionManager))]
-    [TrackColor(1, 0.776f, 0.255f)]
+    [Serializable, TrackClipType(typeof(InteractablePlayableAsset)), TrackBindingType(typeof(InteractionManager)), TrackColor(1, 0.776f, 0.255f)]
     public class InteractablePlayableTrack : PlayableTrack
     {
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
@@ -23,6 +20,13 @@ namespace FMVCore.Interactable
             {
                 interactableMixerPlayableBehaviour.Director = playableDirector;
                 interactableMixerPlayableBehaviour.Clips = GetClips();
+            }
+
+            foreach (var c in GetClips())
+            {
+                //Clips are renamed after the actionType of the clip itself
+                var playableAsset = (InteractablePlayableAsset)c.asset;
+                c.displayName = playableAsset.template.interactionId;
             }
 
             return playable;

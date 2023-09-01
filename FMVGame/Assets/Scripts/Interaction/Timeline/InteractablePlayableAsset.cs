@@ -1,15 +1,16 @@
+using DoubleOhPew.Interactions.Timeline;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace FMVCore.Interactable
+namespace DoubleOhPew.Interaction.Timeline
 {
     public class InteractablePlayableAsset : PlayableAsset
     {
-        public InteractablePlayableBehaviour template;
+        public BoxColliderInteractableBehaviour template;
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
-            var playable = ScriptPlayable<InteractablePlayableBehaviour>.Create(graph, template);
+            var playable = ScriptPlayable<BoxColliderInteractableBehaviour>.Create(graph, template);
 
             var interactablePlayableBehaviour = playable.GetBehaviour();
 
