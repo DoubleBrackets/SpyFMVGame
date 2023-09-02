@@ -9,12 +9,12 @@ public struct CircleTriggerPose : IHandlesDrawable
 
     public void DrawHandles(Color c)
     {
-        DebugExtensions.DrawCircle2DHandle(position, radius, c);
+        DrawUtilities.DrawCircle2DHandle(position, radius, c);
     }
 
     public void DrawGizmos(Color c)
     {
-        DebugExtensions.DrawCircle2DGizmo(position, radius, c);
+        DrawUtilities.DrawCircle2DGizmo(position, radius, c);
     }
 
     public static bool operator ==(CircleTriggerPose a, CircleTriggerPose b)

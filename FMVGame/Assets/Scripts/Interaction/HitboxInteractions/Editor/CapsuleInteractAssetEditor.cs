@@ -1,5 +1,6 @@
 using DoubleOhPew.Interactions.Timeline;
 using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
 
 [CustomEditor(typeof(CapsuleInteractAsset))]
@@ -17,19 +18,12 @@ public class CapsuleInteractAssetEditor : Editor
 
     private void OnSceneGUI(SceneView obj)
     {
-        var so = new SerializedObject(target);
-
-        so.Update();
-
         var template = (target as CapsuleInteractAsset)?.template;
 
         var tempPose = template.pose;
         var prevPose = template.pose;
 
         Handles.color = Color.green;
-
-        DebugExtensions.CalculateCapsulePoints(tempPose.position, tempPose.size, tempPose.zAngle,
-            out var p1, out var p2);
 
         Vector3 pos = tempPose.position;
         var rot = Quaternion.Euler(0, 0, tempPose.zAngle);
@@ -55,11 +49,8 @@ public class CapsuleInteractAssetEditor : Editor
         {
             Undo.RecordObject(target, "Edit Capsule Interact Pose");
             template.pose = tempPose;
-        }
-
-        if (so.ApplyModifiedProperties())
-        {
             Repaint();
+            TimelineEditor.Refresh(RefreshReason.ContentsModified);
         }
     }
 }

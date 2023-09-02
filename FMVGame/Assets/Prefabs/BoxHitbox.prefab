@@ -90,4 +90,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0746b11182e6640bb95d8e76ed7909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCollider2D: {fileID: 2548077032814973059}
+  attachedCollider: {fileID: 2548077032814973059}

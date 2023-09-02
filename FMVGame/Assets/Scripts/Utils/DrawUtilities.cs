@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public static class DebugExtensions
+public static class DrawUtilities
 {
     public static void DrawBox2DGizmo(Vector2 position, Vector2 size, float zAngle, Color c)
     {

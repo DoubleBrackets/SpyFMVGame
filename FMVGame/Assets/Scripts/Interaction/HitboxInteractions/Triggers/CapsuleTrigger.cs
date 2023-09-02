@@ -10,12 +10,12 @@ public struct CapsuleTriggerPose : IHandlesDrawable
 
     public void DrawHandles(Color c)
     {
-        DebugExtensions.DrawCapsule2DHandle(position, size, zAngle, c);
+        DrawUtilities.DrawCapsule2DHandle(position, size, zAngle, c);
     }
 
     public void DrawGizmos(Color c)
     {
-        DebugExtensions.DrawCapsule2DGizmo(position, size, zAngle, c);
+        DrawUtilities.DrawCapsule2DGizmo(position, size, zAngle, c);
     }
 
     public static bool operator ==(CapsuleTriggerPose a, CapsuleTriggerPose b)

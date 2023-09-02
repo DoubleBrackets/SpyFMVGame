@@ -10,13 +10,18 @@ public struct BoxTriggerPose : IHandlesDrawable
 
     public void DrawHandles(Color c)
     {
-        DebugExtensions.DrawBox2DHandle(position, size, zAngle, c);
+        DrawUtilities.DrawBox2DHandle(position, size, zAngle, c);
     }
 
     public void DrawGizmos(Color c)
     {
-        DebugExtensions.DrawBox2DGizmo(position, size, zAngle, c);
+        DrawUtilities.DrawBox2DGizmo(position, size, zAngle, c);
     }
+
+    public static bool operator ==(BoxTriggerPose a, BoxTriggerPose b)
+        => a.position == b.position && a.size == b.size && a.zAngle == b.zAngle;
+
+    public static bool operator !=(BoxTriggerPose a, BoxTriggerPose b) => !(a == b);
 }
 
 public class BoxTrigger : HitboxTrigger<BoxTriggerPose, BoxHitbox, BoxCollider2D>

@@ -1,5 +1,6 @@
 using DoubleOhPew.Interactions.Timeline;
 using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
 
 [CustomEditor(typeof(BoxInteractAsset))]
@@ -17,11 +18,7 @@ public class BoxInteractAssetEditor : Editor
 
     private void OnSceneGUI(SceneView obj)
     {
-        var so = new SerializedObject(target);
-
-        so.Update();
-
-        var template = (target as CapsuleInteractAsset)?.template;
+        var template = (target as BoxInteractAsset)?.template;
 
         var tempPose = template.pose;
         var prevPose = template.pose;
@@ -29,16 +26,18 @@ public class BoxInteractAssetEditor : Editor
 
         Handles.color = Color.green;
 
-        DebugExtensions.CalculateCapsulePoints(tempPose.position, tempPose.size, tempPose.zAngle,
-            out var p1, out var p2);
+        Vector3 pos = tempPose.position;
+        var rot = Quaternion.Euler(0, 0, tempPose.zAngle);
+        var scale = (Vector3)tempPose.size;
 
+        Handles.TransformHandle(ref pos, ref rot, ref scale);
 
-        tempPose.size.x = 2 * Handles.RadiusHandle(Quaternion.AngleAxis(prevPose.zAngle, Vector3.forward), p1, prevPose.size.x / 2f);
-        tempPose.size.x = 2 * Handles.RadiusHandle(Quaternion.AngleAxis(prevPose.zAngle, Vector3.forward), p2, tempPose.size.x / 2f);
+        tempPose.size.x = scale.x;
+        tempPose.size.y = scale.y;
 
-        tempPose.zAngle = Handles.DoRotationHandle(Quaternion.Euler(0, 0, prevPose.zAngle), prevPose.position).eulerAngles.z % 360f;
+        tempPose.position = pos;
 
-        tempPose.position = Handles.PositionHandle(prevPose.position, Quaternion.identity);
+        tempPose.zAngle = prevPose.zAngle + Mathf.DeltaAngle(prevPose.zAngle, rot.eulerAngles.z);
 
 
         if (Mathf.Abs(tempPose.zAngle - prevPose.zAngle) < 5f)
@@ -52,11 +51,8 @@ public class BoxInteractAssetEditor : Editor
         {
             Undo.RecordObject(target, "Edit Capsule Interact Pose");
             template.pose = tempPose;
-        }
-
-        if (so.ApplyModifiedProperties())
-        {
             Repaint();
+            TimelineEditor.Refresh(RefreshReason.ContentsModified);
         }
     }
 }

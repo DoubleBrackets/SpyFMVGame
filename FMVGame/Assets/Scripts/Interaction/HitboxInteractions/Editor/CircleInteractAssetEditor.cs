@@ -1,5 +1,6 @@
 using DoubleOhPew.Interactions.Timeline;
 using UnityEditor;
+using UnityEditor.Timeline;
 using UnityEngine;
 
 [CustomEditor(typeof(CircleInteractAsset))]
@@ -17,16 +18,11 @@ public class CircleInteractAssetEditor : Editor
 
     private void OnSceneGUI(SceneView obj)
     {
-        var so = new SerializedObject(target);
-
-        so.Update();
-
         var template = (target as CircleInteractAsset)?.template;
 
         var tempPose = template.pose;
 
         Handles.color = Color.green;
-
 
         tempPose.radius = Handles.RadiusHandle(Quaternion.AngleAxis(0, Vector3.forward), tempPose.position, tempPose.radius);
         tempPose.position = Handles.PositionHandle(tempPose.position, Quaternion.identity);
@@ -37,11 +33,8 @@ public class CircleInteractAssetEditor : Editor
         {
             Undo.RecordObject(target, "Edit Circle Interact Pose");
             template.pose = tempPose;
-        }
-
-        if (so.ApplyModifiedProperties())
-        {
             Repaint();
+            TimelineEditor.Refresh(RefreshReason.ContentsModified);
         }
     }
 }
