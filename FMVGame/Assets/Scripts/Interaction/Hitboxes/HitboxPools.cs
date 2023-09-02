@@ -8,7 +8,7 @@ public class HitboxPools : MonoBehaviour
     private const uint POOL_STATIC_SIZE = 10;
 
     [Serializable]
-    public class HitboxPoolConfig<THitbox> where THitbox : Hitbox
+    public class HitboxPoolConfig<THitbox> where THitbox : MonoBehaviour, IPoolable
     {
         public THitbox hitboxPrefab;
         public Transform hitboxParentTransform;

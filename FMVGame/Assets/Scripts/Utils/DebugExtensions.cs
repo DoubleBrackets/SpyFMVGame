@@ -15,7 +15,7 @@ public static class DebugExtensions
         Gizmos.DrawLine(p1, p4);
     }
 
-    public static void DrawRectangle2DHandle(Vector2 position, Vector2 size, float zAngle, Color c)
+    public static void DrawBox2DHandle(Vector2 position, Vector2 size, float zAngle, Color c)
     {
 #if UNITY_EDITOR
         Handles.color = c;
@@ -44,7 +44,7 @@ public static class DebugExtensions
         p4 = transformMatrix.MultiplyPoint3x4(new Vector2(-0.5f, 0.5f));
     }
 
-    public static void DrawCapsuleColliderGizmo2D(Vector2 position, Vector2 size, float zAngle, Color color)
+    public static void DrawCapsule2DGizmo(Vector2 position, Vector2 size, float zAngle, Color color)
     {
         Gizmos.color = color;
 
@@ -52,9 +52,13 @@ public static class DebugExtensions
 
         Gizmos.DrawWireSphere(p1, size.x / 2f);
         Gizmos.DrawWireSphere(p2, size.x / 2f);
+
+        var recSize = size;
+        recSize.y = Mathf.Max(0, size.y - size.x);
+        DrawBox2DGizmo(position, recSize, zAngle, color);
     }
 
-    public static void DrawHandleCapsule2D(Vector2 position, Vector2 size, float zAngle, Color color)
+    public static void DrawCapsule2DHandle(Vector2 position, Vector2 size, float zAngle, Color color)
     {
 #if UNITY_EDITOR
         Handles.color = color;
@@ -63,10 +67,14 @@ public static class DebugExtensions
 
         Handles.DrawWireDisc(p1, Vector3.forward, size.x / 2f);
         Handles.DrawWireDisc(p2, Vector3.forward, size.x / 2f);
+
+        var recSize = size;
+        recSize.y = Mathf.Max(0, size.y - size.x);
+        DrawBox2DHandle(position, recSize, zAngle, color);
 #endif
     }
 
-    private static void CalculateCapsulePoints(
+    public static void CalculateCapsulePoints(
         Vector2 position, Vector2 size, float zAngle,
         out Vector2 p1, out Vector2 p2)
     {
@@ -76,16 +84,10 @@ public static class DebugExtensions
             Vector3.one
         );
 
-        var offset = Mathf.Max(0, size.y - size.x / 2f);
+        var offset = Vector3.up * Mathf.Max(0, (size.y - size.x) / 2f);
 
-        var circleUpper = position;
-        circleUpper.y += offset;
-
-        var circleLower = position;
-        circleLower.y -= offset;
-
-        p1 = transformMatrix.MultiplyPoint3x4(circleUpper);
-        p2 = transformMatrix.MultiplyPoint3x4(circleLower);
+        p1 = transformMatrix.MultiplyPoint3x4(offset);
+        p2 = transformMatrix.MultiplyPoint3x4(-offset);
     }
 
     public static void DrawCircle2DGizmo(Vector2 position, float radius, Color color)

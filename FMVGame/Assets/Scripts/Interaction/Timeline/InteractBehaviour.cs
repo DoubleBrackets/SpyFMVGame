@@ -7,9 +7,10 @@ using UnityEngine.Playables;
 namespace DoubleOhPew.Interactions.Timeline
 {
     [Serializable]
-    public abstract class InteractablePlayableBehaviour<TTrigger, TTriggerPose> : PlayableBehaviour
+    public abstract class InteractBehaviour<TTrigger, TTriggerPose> : PlayableBehaviour
         where TTrigger : IInteractTrigger<TTriggerPose>, new() where TTriggerPose : struct, IHandlesDrawable
     {
+        // Pose needs to be a struct to have its fields be keyframeable by Timeline
         public TTriggerPose pose;
         public InteractActionSO[] interactActions;
 

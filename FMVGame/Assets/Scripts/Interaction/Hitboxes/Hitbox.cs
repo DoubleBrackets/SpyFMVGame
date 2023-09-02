@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Hitbox<TCollider> : Hitbox where TCollider : Collider2D
+public class Hitbox<TCollider> : MonoBehaviour, IPoolable where TCollider : Collider2D
 {
     [SerializeField]
     protected TCollider attachedCollider;
@@ -22,10 +22,7 @@ public class Hitbox<TCollider> : Hitbox where TCollider : Collider2D
             OnDrawGizmo?.Invoke();
         }
     }
-}
 
-public class Hitbox : MonoBehaviour, IPoolable
-{
     public void Initialize()
     {
         gameObject.SetActive(false);

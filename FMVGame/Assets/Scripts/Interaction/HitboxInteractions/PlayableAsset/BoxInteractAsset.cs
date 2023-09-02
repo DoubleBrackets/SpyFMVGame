@@ -3,13 +3,13 @@ using UnityEngine.Playables;
 
 namespace DoubleOhPew.Interactions.Timeline
 {
-    public class BoxInteractablePlayableAsset : PlayableAsset
+    public class BoxInteractAsset : PlayableAsset
     {
-        public BoxColliderInteractableBehaviour template;
+        public BoxInteractBehaviour template;
 
         public override Playable CreatePlayable(PlayableGraph graph, GameObject owner)
         {
-            var playable = ScriptPlayable<BoxColliderInteractableBehaviour>.Create(graph, template);
+            var playable = ScriptPlayable<BoxInteractBehaviour>.Create(graph, template);
             return playable;
         }
     }

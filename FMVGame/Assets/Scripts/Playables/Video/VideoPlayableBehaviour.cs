@@ -85,6 +85,16 @@ namespace FMVCore.Video
             }
 
             SyncVideoToPlayable(playable);
+
+            // Pause while scrubbing
+            if (info.deltaTime == 0)
+            {
+                PauseVideo();
+            }
+            else
+            {
+                PlayVideo();
+            }
         }
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
@@ -96,7 +106,6 @@ namespace FMVCore.Video
 
             if (!playedOnce)
             {
-                SyncVideoToPlayable(playable);
                 PlayVideo();
             }
         }
@@ -114,7 +123,7 @@ namespace FMVCore.Video
             }
             else
             {
-                StopVideo();
+                PauseVideo();
             }
         }
 
@@ -154,15 +163,12 @@ namespace FMVCore.Video
 
         public override void OnGraphStop(Playable playable)
         {
-            if (!Application.isPlaying)
-            {
-                PauseVideo();
-            }
+            PauseVideo();
         }
 
         public override void OnPlayableDestroy(Playable playable)
         {
-            StopVideo();
+            // StopVideo();
         }
 
         public void PlayVideo()
@@ -174,11 +180,6 @@ namespace FMVCore.Video
 
             videoPlayerSurface.Play();
             preparing = false;
-
-            if (!Application.isPlaying)
-            {
-                PauseVideo();
-            }
         }
 
         public void PauseVideo()
