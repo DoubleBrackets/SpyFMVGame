@@ -881,15 +881,11 @@ PlayableDirector:
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
-  - key: {fileID: -2323269915585648989, guid: 08846f2aa7dc0d14a94838762c319ac3, type: 2}
-    value: {fileID: 73370940}
   - key: {fileID: -1501967396612352397, guid: 3c4e61ef5a4102e4687cda11935ccee1, type: 2}
     value: {fileID: 0}
   - key: {fileID: -4806511434178851159, guid: 3c4e61ef5a4102e4687cda11935ccee1, type: 2}
     value: {fileID: 0}
   - key: {fileID: 1378704434129251960, guid: 3c4e61ef5a4102e4687cda11935ccee1, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -2147444624642825276, guid: 08846f2aa7dc0d14a94838762c319ac3, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:
     m_References:

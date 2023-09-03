@@ -26,7 +26,6 @@ namespace DoubleOhPew.Interactions.Timeline
         public Color handleColor = Color.red;
 
         private Interactable<TTrigger, TTriggerPose> interactable;
-        private TTrigger interactTrigger;
 
         public InteractionManager interactionManager { get; set; }
 

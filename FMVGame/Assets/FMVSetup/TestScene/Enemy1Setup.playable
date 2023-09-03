@@ -980,22 +980,6 @@ MonoBehaviour:
     m_DisplayName: BodyshotHitbox
   m_Markers:
     m_Objects: []
---- !u!114 &-1234865416142559929
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03608073322ad4049bf674d9d133510a, type: 3}
-  m_Name: Jump/JumpMarker
-  m_EditorClassIdentifier: 
-  m_Time: 3.283333333333333
-  destinationMarker: {fileID: 593564728019766987}
-  emitOnce: 0
-  emitInEditor: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,20 +1004,6 @@ MonoBehaviour:
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 8849058582538442317}
---- !u!114 &593564728019766987
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6b2e762b2d45c695fa4597f6db49b8, type: 3}
-  m_Name: Dest
-  m_EditorClassIdentifier: 
-  m_Time: 2.45
-  active: 1
 --- !u!114 &2054850385602368332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2131,5 +2101,3 @@ MonoBehaviour:
   m_Markers:
     m_Objects:
     - {fileID: -2217280690644486327}
-    - {fileID: 593564728019766987}
-    - {fileID: -1234865416142559929}
