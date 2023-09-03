@@ -16,6 +16,9 @@ public class FMVGameDirector : MonoBehaviour
     public static FMVGameDirector Instance;
 
     [SerializeField]
+    private FMVSegmentSetupSO startSegment;
+
+    [SerializeField]
     private SegmentController controller;
 
     [SerializeField, Toggle("loadDebugSegment")]
@@ -40,12 +43,17 @@ public class FMVGameDirector : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
+        debugSetup.loadDebugSegment = false;
+#endif
         if (debugSetup.loadDebugSegment)
         {
             PlaySegment(debugSetup.debugSegmentSetupSo);
         }
-#endif
+        else
+        {
+            PlaySegment(startSegment);
+        }
     }
 
     public void PlaySegment(FMVSegmentSetupSO segmentSetup)

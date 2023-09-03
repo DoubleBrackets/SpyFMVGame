@@ -44,8 +44,9 @@ namespace DoubleOhPew.Interactions.Timeline
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
+#if UNITY_EDITOR
             SceneView.duringSceneGui += DrawInteractableTriggerVisuals;
-
+#endif
             if (Application.isPlaying && interactionManager)
             {
                 interactable.Enable();
@@ -55,8 +56,9 @@ namespace DoubleOhPew.Interactions.Timeline
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
+#if UNITY_EDITOR
             SceneView.duringSceneGui -= DrawInteractableTriggerVisuals;
-
+#endif
             if (Application.isPlaying && interactionManager)
             {
                 interactable.Disable();
@@ -93,10 +95,11 @@ namespace DoubleOhPew.Interactions.Timeline
 
         private bool HandleInteraction(InteractionInfo info) => interactable.HandleInteraction(info);
 
-
+#if UNITY_EDITOR
         private void DrawInteractableTriggerVisuals(SceneView sceneView)
         {
             pose.DrawHandles(handleColor);
         }
+#endif
     }
 }
