@@ -5,14 +5,15 @@ public class HitboxPools : MonoBehaviour
 {
     public static HitboxPools Instance;
 
-    private const uint POOL_STATIC_SIZE = 10;
+    [SerializeField]
+    private uint poolSize;
 
     [Serializable]
     public class HitboxPoolConfig<THitbox> where THitbox : MonoBehaviour, IPoolable
     {
         public THitbox hitboxPrefab;
         public Transform hitboxParentTransform;
-        public PrefabComponentPool<THitbox> CreatePool() => new(hitboxPrefab, POOL_STATIC_SIZE, hitboxParentTransform);
+        public PrefabComponentPool<THitbox> CreatePool(uint poolSize) => new(hitboxPrefab, poolSize, hitboxParentTransform);
     }
 
     public HitboxPoolConfig<BoxHitbox> boxHitboxPoolConfig;
@@ -34,8 +35,8 @@ public class HitboxPools : MonoBehaviour
 
         Instance = this;
 
-        boxHitboxPool = boxHitboxPoolConfig.CreatePool();
-        capsuleHitboxPool = capsuleHitboxPoolConfig.CreatePool();
-        circleHitboxPool = circleHitboxPoolConfig.CreatePool();
+        boxHitboxPool = boxHitboxPoolConfig.CreatePool(poolSize);
+        capsuleHitboxPool = capsuleHitboxPoolConfig.CreatePool(poolSize);
+        circleHitboxPool = circleHitboxPoolConfig.CreatePool(poolSize);
     }
 }

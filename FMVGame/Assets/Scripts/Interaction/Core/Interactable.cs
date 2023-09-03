@@ -15,7 +15,7 @@ namespace DoubleOhPew.Interactions.Core
             interactTrigger.UpdatePose(pose);
         }
 
-        public void HandleInteraction(InteractionInfo interactionInfo)
+        public bool HandleInteraction(InteractionInfo interactionInfo)
         {
             if (interactTrigger.EvaluateInteraction(interactionInfo))
             {
@@ -23,7 +23,11 @@ namespace DoubleOhPew.Interactions.Core
                 {
                     interactAction.TriggerAction(interactionInfo);
                 }
+
+                return true;
             }
+
+            return false;
         }
 
         public void Initialize(IEnumerable<IInteractAction> actions)
