@@ -1,94 +1,102 @@
+using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Video;
 
 namespace FMVCore.Video
 {
+    [Serializable]
     public class VideoPlayableBehaviour : PlayableBehaviour
     {
         public VideoClip videoClip;
-        public bool mute = false;
-        public bool loop = true;
-        public double preloadTime = 0.3;
-        public double clipInTime = 0.0;
+        public bool mute;
 
-        private bool playedOnce;
-        private bool preparing;
+        public bool loop = true;
+
+        [InfoBox("Offset time where the video will hold. Only used if loop is false")]
+        public float holdTimeOffset;
+
+        [InfoBox("How far ahead to preload")]
+        public double preloadTime = 2.5;
+
+        [InfoBox("Video clip start time")]
+        public double clipInTime = 0.1;
+
+        private bool initialSetup;
+        private bool isPreparing;
 
         private VideoPlayerHandler videoPlayerHandler;
         private VideoPlayer videoPlayer => videoPlayerHandler.VideoPlayer;
 
         public void PrepareVideo()
         {
-            if (videoPlayer == null || videoClip == null)
+            if (videoPlayerHandler == null || videoClip == null)
             {
                 return;
             }
 
-            videoPlayer.targetCameraAlpha = 0.0f;
-
-            if (videoPlayer.clip != videoClip)
+            if (!initialSetup)
             {
-                StopVideo();
-            }
+                videoPlayer.source = VideoSource.VideoClip;
+                videoPlayer.clip = videoClip;
+                videoPlayer.playOnAwake = false;
+                videoPlayer.waitForFirstFrame = true;
+                videoPlayer.isLooping = loop;
 
-            if (videoPlayer.isPrepared || preparing)
-            {
-                return;
-            }
-
-            videoPlayer.source = VideoSource.VideoClip;
-            videoPlayer.clip = videoClip;
-            videoPlayer.playOnAwake = false;
-            videoPlayer.waitForFirstFrame = true;
-            videoPlayer.isLooping = loop;
-
-            for (ushort i = 0; i < videoClip.audioTrackCount; ++i)
-            {
-                if (videoPlayer.audioOutputMode == VideoAudioOutputMode.Direct)
+                for (ushort i = 0; i < videoClip.audioTrackCount; ++i)
                 {
-                    videoPlayer.SetDirectAudioMute(i, mute || !Application.isPlaying);
-                }
-                else if (videoPlayer.audioOutputMode == VideoAudioOutputMode.AudioSource)
-                {
-                    var audioSource = videoPlayer.GetTargetAudioSource(i);
-                    if (audioSource != null)
+                    if (videoPlayer.audioOutputMode == VideoAudioOutputMode.Direct)
                     {
-                        audioSource.mute = mute || !Application.isPlaying;
+                        videoPlayer.SetDirectAudioMute(i, mute);
+                        videoPlayer.SetDirectAudioVolume(i, 1);
+                    }
+                    else if (videoPlayer.audioOutputMode == VideoAudioOutputMode.AudioSource)
+                    {
+                        var audioSource = videoPlayer.GetTargetAudioSource(i);
+                        if (audioSource != null)
+                        {
+                            audioSource.mute = mute;
+                        }
                     }
                 }
+
+                initialSetup = true;
             }
 
-            videoPlayer.loopPointReached += LoopPointReached;
-            videoPlayer.time = clipInTime;
-            videoPlayer.Prepare();
-            preparing = true;
+            if (!isPreparing && !videoPlayer.isPrepared)
+            {
+                videoPlayer.time = clipInTime;
+                videoPlayer.Prepare();
+                videoPlayer.prepareCompleted += HandlePrepareComplete;
+                isPreparing = true;
+            }
         }
 
-        private void LoopPointReached(VideoPlayer vp)
+        private void HandlePrepareComplete(VideoPlayer source)
         {
-            playedOnce = !loop;
+            source.prepareCompleted -= HandlePrepareComplete;
+
+            // Playing and pausing prevents some weird delays
+            source.Play();
+            source.Pause();
+            isPreparing = false;
         }
 
         public override void PrepareFrame(Playable playable, FrameData info)
         {
-            if (videoPlayer == null || videoClip == null)
+            if (videoPlayerHandler == null || videoClip == null)
             {
                 return;
             }
 
-            videoPlayer.timeReference = Application.isPlaying ? VideoTimeReference.ExternalTime : VideoTimeReference.Freerun;
-
-            if (videoPlayer.isPlaying && Application.isPlaying)
-            {
-                videoPlayer.externalReferenceTime = playable.GetTime();
-            }
-
+            // Force sync every frame
             SyncVideoToPlayable(playable);
 
             // Pause while scrubbing
             if (info.deltaTime == 0)
             {
+                // Play to make sure the time updates instantly
                 PlayVideo();
                 PauseVideo();
             }
@@ -100,66 +108,30 @@ namespace FMVCore.Video
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
         {
-            if (videoPlayer == null)
+            if (videoPlayerHandler == null)
             {
                 return;
             }
 
-            if (!playedOnce)
-            {
-                PlayVideo();
-            }
+            PlayVideo();
         }
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
-            if (videoPlayer == null)
+            if (videoPlayerHandler == null)
             {
                 return;
             }
 
-            if (Application.isPlaying)
-            {
-                PauseVideo();
-            }
-            else
-            {
-                PauseVideo();
-            }
+            PauseVideo();
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-            if (videoPlayer == null || videoPlayer.clip == null)
-            {
-                return;
-            }
-
-            videoPlayer.targetCameraAlpha = info.weight;
-
-            if (Application.isPlaying)
-            {
-                for (ushort i = 0; i < videoPlayer.clip.audioTrackCount; ++i)
-                {
-                    if (videoPlayer.audioOutputMode == VideoAudioOutputMode.Direct)
-                    {
-                        videoPlayer.SetDirectAudioVolume(i, info.weight);
-                    }
-                    else if (videoPlayer.audioOutputMode == VideoAudioOutputMode.AudioSource)
-                    {
-                        var audioSource = videoPlayer.GetTargetAudioSource(i);
-                        if (audioSource != null)
-                        {
-                            audioSource.volume = info.weight;
-                        }
-                    }
-                }
-            }
         }
 
         public override void OnGraphStart(Playable playable)
         {
-            playedOnce = false;
         }
 
         public override void OnGraphStop(Playable playable)
@@ -169,67 +141,90 @@ namespace FMVCore.Video
 
         public override void OnPlayableCreate(Playable playable)
         {
+            GetVideoHandlerFromPool();
+        }
+
+
+        public override void OnPlayableDestroy(Playable playable)
+        {
+            ReturnVideoHandlerToPool(playable);
+        }
+
+
+        private void GetVideoHandlerFromPool()
+        {
             if (Application.isPlaying)
             {
                 videoPlayerHandler = VideoPlayerPool.Instance.GetVideoPlayer();
             }
             else
             {
-                videoPlayerHandler = EditorVideoPlayer.Instance.PrepareAndGetVideoPlayer();
+                videoPlayerHandler = EditorVideoPool.Instance.GetFromPool();
             }
         }
 
-        public override void OnPlayableDestroy(Playable playable)
+        private void ReturnVideoHandlerToPool(Playable playable)
         {
             if (Application.isPlaying)
             {
                 VideoPlayerPool.Instance.ReturnVideoPlayer(videoPlayerHandler);
-                videoPlayerHandler = null;
             }
+            else
+            {
+                if (playable.GetTime() > 0 && playable.GetTime() <= playable.GetDuration())
+                {
+                    EditorVideoPool.Instance.ReturnToPoolSoft(videoPlayerHandler);
+                }
+                else
+                {
+                    EditorVideoPool.Instance.ReturnToPool(videoPlayerHandler);
+                }
+            }
+
+            videoPlayerHandler = null;
         }
 
         public void PlayVideo()
         {
-            if (videoPlayer == null)
+            if (videoPlayerHandler == null)
             {
                 return;
             }
 
             videoPlayerHandler.Play();
-            preparing = false;
         }
 
         public void PauseVideo()
         {
-            if (videoPlayer == null)
+            if (videoPlayerHandler == null)
             {
                 return;
             }
 
             videoPlayer.Pause();
-            preparing = false;
         }
 
         public void StopVideo()
         {
-            if (videoPlayer == null)
+            if (videoPlayerHandler == null)
             {
                 return;
             }
 
-            playedOnce = false;
             videoPlayerHandler.Stop();
-            preparing = false;
         }
 
         private void SyncVideoToPlayable(Playable playable)
         {
-            if (videoPlayer == null || videoPlayer.clip == null)
+            var rawTime = clipInTime + playable.GetTime() * videoPlayer.playbackSpeed;
+            if (loop)
             {
-                return;
+                videoPlayer.time = rawTime % videoPlayer.clip.length;
             }
-
-            videoPlayer.time = clipInTime + playable.GetTime() * videoPlayer.playbackSpeed;
+            else
+            {
+                videoPlayer.time = Math.Min(rawTime, videoPlayer.clip.length + holdTimeOffset);
+            }
         }
     }
 }

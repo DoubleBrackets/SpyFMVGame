@@ -41,7 +41,7 @@ public class BoxInteractAssetEditor : OdinEditor
         tempPose.zAngle = prevPose.zAngle + Mathf.DeltaAngle(prevPose.zAngle, rot.eulerAngles.z);
 
 
-        if (Mathf.Abs(tempPose.zAngle - prevPose.zAngle) < 5f)
+        if (Mathf.Abs(tempPose.zAngle - prevPose.zAngle) < 2f)
         {
             tempPose.zAngle = prevPose.zAngle;
         }

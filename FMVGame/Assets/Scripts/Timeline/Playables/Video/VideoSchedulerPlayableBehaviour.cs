@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
@@ -8,51 +7,48 @@ namespace FMVCore.Video
 {
     public sealed class VideoSchedulerPlayableBehaviour : PlayableBehaviour
     {
-		private IEnumerable<TimelineClip> m_Clips;
-        private PlayableDirector m_Director;
+        internal PlayableDirector director { get; set; }
 
-        internal PlayableDirector director
-        {
-            get { return m_Director; }
-            set { m_Director = value; }
-        }
-
-        internal IEnumerable<TimelineClip> clips
-        {
-            get { return m_Clips; }
-            set { m_Clips = value; }
-        }
+        internal IEnumerable<TimelineClip> clips { get; set; }
 
         public override void PrepareFrame(Playable playable, FrameData info)
         {
-	        if (m_Clips == null)
-                return;
-
-            int inputPort = 0;
-            foreach (TimelineClip clip in m_Clips)
+            if (clips == null)
             {
-				ScriptPlayable<VideoPlayableBehaviour> scriptPlayable =
-					(ScriptPlayable<VideoPlayableBehaviour>)playable.GetInput(inputPort);
+                return;
+            }
 
-				VideoPlayableBehaviour videoPlayableBehaviour = scriptPlayable.GetBehaviour();
+            var inputPort = 0;
+            foreach (var clip in clips)
+            {
+                var scriptPlayable =
+                    (ScriptPlayable<VideoPlayableBehaviour>)playable.GetInput(inputPort);
 
-				if (videoPlayableBehaviour != null)
-				{
-					double preloadTime = Math.Max(0.0, videoPlayableBehaviour.preloadTime);
-					if (m_Director.time >= clip.start + clip.duration ||
-						m_Director.time <= clip.start - preloadTime)
-						videoPlayableBehaviour.StopVideo();
-					else if (m_Director.time > clip.start - preloadTime)
-						videoPlayableBehaviour.PrepareVideo();
-				}
-					
+                var videoPlayableBehaviour = scriptPlayable.GetBehaviour();
+
+                if (videoPlayableBehaviour != null)
+                {
+                    var preloadTime = Math.Max(0.0, videoPlayableBehaviour.preloadTime);
+
+                    // Stop the video while its out of duration
+                    if (director.time >= clip.start + clip.duration ||
+                        director.time <= clip.start - preloadTime)
+                    {
+                        videoPlayableBehaviour.StopVideo();
+                    }
+                    else if (director.time > clip.start - preloadTime)
+                    {
+                        videoPlayableBehaviour.PrepareVideo();
+                    }
+                }
+
                 ++inputPort;
             }
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
-	        base.ProcessFrame(playable, info, playerData);
+            base.ProcessFrame(playable, info, playerData);
         }
     }
 }

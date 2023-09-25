@@ -6,7 +6,7 @@ public class PrefabComponentPool<T> where T : Component, IPoolable
 {
     private readonly Stack<T> objectPool = new();
 
-    private readonly List<T> usedObjects = new();
+    private readonly List<T> activeObjects = new();
 
     public PrefabComponentPool(T prefab, uint staticPoolSize, Transform parentTransform)
     {
@@ -27,18 +27,18 @@ public class PrefabComponentPool<T> where T : Component, IPoolable
         }
 
         var instance = objectPool.Pop();
-        usedObjects.Add(instance);
+        activeObjects.Add(instance);
         instance.OnRetrievedFromPool();
         return instance;
     }
 
     public void ReturnToPool(T instance)
     {
-        var returnedHitbox = usedObjects.Find(x => x == instance);
-        if (returnedHitbox != null)
+        var returnedInstance = activeObjects.Find(x => x == instance);
+        if (returnedInstance != null)
         {
             instance.OnReturnedToPool();
-            usedObjects.Remove(instance);
+            activeObjects.Remove(instance);
             objectPool.Push(instance);
         }
         else
@@ -47,5 +47,5 @@ public class PrefabComponentPool<T> where T : Component, IPoolable
         }
     }
 
-    public IEnumerable<T> GetAll() => usedObjects.Concat(objectPool);
+    public IEnumerable<T> GetAll() => activeObjects.Concat(objectPool);
 }

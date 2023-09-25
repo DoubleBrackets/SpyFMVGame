@@ -3,11 +3,10 @@ using DoubleOhPew.Interactions.Core;
 using UnityEngine;
 
 [Serializable]
-public class SOAction : IInteractAction
+public class TriggerScriptableObjectAction : IInteractAction
 {
     [SerializeField]
     private InteractActionSO actionSO;
-
 
     public void TriggerAction(InteractionInfo info)
     {

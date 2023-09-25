@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class InteractionManager : MonoBehaviour
 {
@@ -82,6 +83,7 @@ public struct InteractionInfo
 
     public InteractionType interactionType;
     public Vector2 mouseWorldPos;
+    public Playable sourcePlayable;
 
     public override string ToString() => $"type: {interactionType}, mouseWorldPos: {mouseWorldPos}";
 }

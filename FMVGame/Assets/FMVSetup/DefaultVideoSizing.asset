@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoWidth: 640
   videoHeight: 480
-  surfaceWidth: 5
+  surfaceWidth: 10

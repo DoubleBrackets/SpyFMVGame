@@ -25,10 +25,10 @@ namespace DoubleOhPew.Interactions.Timeline
         [Header("Debug Color")]
         public Color handleColor = Color.red;
 
-        private Interactable<TTrigger, TTriggerPose> interactable;
-
         public InteractionManager interactionManager { get; set; }
 
+        private Interactable<TTrigger, TTriggerPose> interactable;
+        private Playable wrappedPlayable;
 
         public override void PrepareFrame(Playable playable, FrameData info)
         {
@@ -74,6 +74,8 @@ namespace DoubleOhPew.Interactions.Timeline
                 interactable = new Interactable<TTrigger, TTriggerPose>();
                 interactable.Initialize(interactActions);
             }
+
+            wrappedPlayable = playable;
         }
 
         public override void OnPlayableDestroy(Playable playable)
@@ -93,7 +95,11 @@ namespace DoubleOhPew.Interactions.Timeline
         }
 
 
-        private bool HandleInteraction(InteractionInfo info) => interactable.HandleInteraction(info);
+        private bool HandleInteraction(InteractionInfo info)
+        {
+            info.sourcePlayable = wrappedPlayable;
+            return interactable.HandleInteraction(info);
+        }
 
 #if UNITY_EDITOR
         private void DrawInteractableTriggerVisuals(SceneView sceneView)
