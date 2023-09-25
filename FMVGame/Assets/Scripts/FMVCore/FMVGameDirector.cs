@@ -37,7 +37,10 @@ public class FMVGameDirector : MonoBehaviour
     private void OnValidate()
     {
 #if UNITY_EDITOR
-        debugSetup.director.playableAsset = debugSetup.debugSegmentSetupSo.TimelineAsset;
+        if (debugSetup.loadDebugSegment)
+        {
+            debugSetup.director.playableAsset = debugSetup.debugSegmentSetupSo.TimelineAsset;
+        }
 #endif
     }
 

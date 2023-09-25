@@ -175,7 +175,7 @@ namespace FMVCore.Video
             }
             else
             {
-                videoPlayerHandler = EditorVideoPlayer.Instance.VideoPlayer;
+                videoPlayerHandler = EditorVideoPlayer.Instance.PrepareAndGetVideoPlayer();
             }
         }
 

@@ -12,10 +12,20 @@ public class EditorVideoPlayer : MonoBehaviour
     [SerializeField]
     private VideoPlayerHandler videoPlayer;
 
+    [SerializeField]
+    private VideoPlayerSizeConfig defaultSizeConfig;
+
     public VideoPlayerHandler VideoPlayer => videoPlayer;
 
     private void OnEnable()
     {
         Instance = this;
+        VideoPlayer.SetSizing(defaultSizeConfig);
+    }
+
+    public VideoPlayerHandler PrepareAndGetVideoPlayer()
+    {
+        VideoPlayer.SetSizing(defaultSizeConfig);
+        return VideoPlayer;
     }
 }

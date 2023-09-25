@@ -204,6 +204,22 @@ MonoBehaviour:
     m_DisplayName: BoxInteractAsset
   m_Markers:
     m_Objects: []
+--- !u!114 &-5753189374754439474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03608073322ad4049bf674d9d133510a, type: 3}
+  m_Name: Jump/JumpMarker
+  m_EditorClassIdentifier: 
+  m_Time: 3.216666666666667
+  destinationMarker: {fileID: 0}
+  emitOnce: 0
+  emitInEditor: 0
 --- !u!74 &-4346237614119696127
 AnimationClip:
   m_ObjectHideFlags: 0
@@ -903,6 +919,8 @@ MonoBehaviour:
   m_Markers:
     m_Objects:
     - {fileID: -8973484348593425893}
+    - {fileID: -110375037174450684}
+    - {fileID: -5753189374754439474}
 --- !u!114 &-1798104904957805760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1028,6 +1046,20 @@ MonoBehaviour:
     m_DisplayName: shot_1
   m_Markers:
     m_Objects: []
+--- !u!114 &-110375037174450684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6b2e762b2d45c695fa4597f6db49b8, type: 3}
+  m_Name: Jump/DestinationMarker
+  m_EditorClassIdentifier: 
+  m_Time: 3.75
+  active: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

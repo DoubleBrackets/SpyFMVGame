@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PrefabComponentPool<T> where T : Component, IPoolable
@@ -45,4 +46,6 @@ public class PrefabComponentPool<T> where T : Component, IPoolable
             Debug.LogError($"Tried to return instance {instance} that is not being used. What the heck??");
         }
     }
+
+    public IEnumerable<T> GetAll() => usedObjects.Concat(objectPool);
 }

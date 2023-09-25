@@ -8,6 +8,9 @@ public class VideoPlayerPool : MonoBehaviour
     private VideoPlayerHandler prefab;
 
     [SerializeField]
+    private VideoPlayerSizeConfig defaultSizeConfig;
+
+    [SerializeField]
     private uint poolSize;
 
     private PrefabComponentPool<VideoPlayerHandler> pool;
@@ -23,8 +26,14 @@ public class VideoPlayerPool : MonoBehaviour
         Instance = this;
 
         pool = new PrefabComponentPool<VideoPlayerHandler>(prefab, poolSize, transform);
+
+        foreach (var videoPlayer in pool.GetAll())
+        {
+            videoPlayer.SetSizing(defaultSizeConfig);
+        }
     }
 
-    public VideoPlayerHandler GetVideoPlayer() => pool.GetFromPool();
+    public VideoPlayerHandler GetVideoPlayer() => pool.GetFromPool().SetSizing(defaultSizeConfig);
+
     public void ReturnVideoPlayer(VideoPlayerHandler videoPlayerHandler) => pool.ReturnToPool(videoPlayerHandler);
 }

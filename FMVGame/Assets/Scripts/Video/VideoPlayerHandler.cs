@@ -34,5 +34,12 @@ public class VideoPlayerHandler : MonoBehaviour, IPoolable
     public void OnReturnedToPool()
     {
         gameObject.SetActive(false);
+        VideoPlayer.clip = null;
+    }
+
+    public VideoPlayerHandler SetSizing(VideoPlayerSizeConfig sizeConfig)
+    {
+        VideoPlayer.transform.localScale = sizeConfig.GetVideoPlayerSurfaceScale();
+        return this;
     }
 }
