@@ -130,7 +130,7 @@ MonoBehaviour:
     - rid: 1984517402819821578
       type: {class: PlaySegmentAction, ns: , asm: Assembly-CSharp}
       data:
-        segment: {fileID: 11400000, guid: ccb074c0676785846b3d6d8e76d03a89, type: 2}
+        segment: {fileID: 11400000, guid: 7116a9898e28c3b4a93b0895ad443c9b, type: 2}
 --- !u!114 &-3818859333517054017
 MonoBehaviour:
   m_ObjectHideFlags: 1

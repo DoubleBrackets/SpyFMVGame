@@ -1179,9 +1179,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     pose:
-      position: {x: 0, y: 0}
-      size: {x: 0, y: 0}
-      zAngle: 0
+      position: {x: -0.2538797, y: -0.21356547}
+      size: {x: 4.580632, y: 2.9820764}
+      zAngle: -88.76199
     interactActions:
     - rid: 1984517402819821579
     - rid: 1984517408606650371
