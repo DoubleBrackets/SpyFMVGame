@@ -38,49 +38,15 @@ namespace FMVCore.Video
 
             if (!initialSetup)
             {
-                videoPlayer.source = VideoSource.VideoClip;
-                videoPlayer.clip = videoClip;
-                videoPlayer.playOnAwake = false;
-                videoPlayer.waitForFirstFrame = true;
-                videoPlayer.isLooping = loop;
-
-                for (ushort i = 0; i < videoClip.audioTrackCount; ++i)
-                {
-                    if (videoPlayer.audioOutputMode == VideoAudioOutputMode.Direct)
-                    {
-                        videoPlayer.SetDirectAudioMute(i, mute);
-                        videoPlayer.SetDirectAudioVolume(i, 1);
-                    }
-                    else if (videoPlayer.audioOutputMode == VideoAudioOutputMode.AudioSource)
-                    {
-                        var audioSource = videoPlayer.GetTargetAudioSource(i);
-                        if (audioSource != null)
-                        {
-                            audioSource.mute = mute;
-                        }
-                    }
-                }
-
+                videoPlayerHandler.SetupPlayerWithClip(videoClip, loop, mute);
                 initialSetup = true;
             }
 
             if (!isPreparing && !videoPlayer.isPrepared)
             {
-                videoPlayer.time = clipInTime;
-                videoPlayer.Prepare();
-                videoPlayer.prepareCompleted += HandlePrepareComplete;
+                videoPlayerHandler.PrepareVideoAtTime(clipInTime, a => { isPreparing = false; });
                 isPreparing = true;
             }
-        }
-
-        private void HandlePrepareComplete(VideoPlayer source)
-        {
-            source.prepareCompleted -= HandlePrepareComplete;
-
-            // Playing and pausing prevents some weird delays
-            source.Play();
-            source.Pause();
-            isPreparing = false;
         }
 
         public override void PrepareFrame(Playable playable, FrameData info)

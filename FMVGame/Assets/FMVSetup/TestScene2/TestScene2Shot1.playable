@@ -3535,6 +3535,33 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.016666668
         value: -4.8749394
+        inSlope: 0.22528945
+        outSlope: 0.22528945
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.26666668
+        value: -4.854152
+        inSlope: 0.24944688
+        outSlope: 0.24944688
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.35
+        value: -4.744044
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.38333333
+        value: -4.7564964
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -3565,6 +3592,33 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.016666668
         value: -0.52967566
+        inSlope: 0.6236238
+        outSlope: 0.6236238
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.26666668
+        value: -0.48810074
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.35
+        value: -0.53703773
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.38333333
+        value: -0.5245854
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -3653,7 +3707,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 0.38333333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -3724,6 +3778,33 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.016666668
         value: -4.8749394
+        inSlope: 0.22528945
+        outSlope: 0.22528945
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.26666668
+        value: -4.854152
+        inSlope: 0.24944688
+        outSlope: 0.24944688
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.35
+        value: -4.744044
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.38333333
+        value: -4.7564964
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -3754,6 +3835,33 @@ AnimationClip:
       - serializedVersion: 3
         time: 0.016666668
         value: -0.52967566
+        inSlope: 0.6236238
+        outSlope: 0.6236238
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.26666668
+        value: -0.48810074
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.35
+        value: -0.53703773
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.38333333
+        value: -0.5245854
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -3890,9 +3998,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     pose:
-      position: {x: -4.9142294, y: -0.8688808}
-      size: {x: 0.39, y: 0.14}
-      zAngle: 0
+      position: {x: -4.84004, y: -0.49319017}
+      size: {x: 0.39, y: 1.54}
+      zAngle: -5.81781
     interactActions:
     - rid: 1984517904080044032
     - rid: 1984517904080044033
