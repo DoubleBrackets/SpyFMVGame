@@ -9,6 +9,7 @@ public class JumpMarker : Marker, INotification, INotificationOptionProvider
     [SerializeField] public DestinationMarker destinationMarker;
     [SerializeField] public bool emitOnce;
     [SerializeField] public bool emitInEditor;
+    [SerializeField] public bool triggerNotifications;
 
     public PropertyName id { get; }
 

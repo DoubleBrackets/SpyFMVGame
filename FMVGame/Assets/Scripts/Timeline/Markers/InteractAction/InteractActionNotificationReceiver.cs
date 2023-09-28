@@ -6,12 +6,13 @@ public class InteractActionNotificationReceiver : MonoBehaviour, INotificationRe
     public void OnNotify(Playable origin, INotification notification, object context)
     {
         var actionMarker = notification as InteractActionMarker;
-        if (actionMarker != null)
+        if (actionMarker != null && actionMarker.time >= JumpReceiver.jumpDestinationTimeIgnoreMarkers)
         {
             actionMarker.action.TriggerAction(new InteractionInfo
             {
                 interactionType = InteractionInfo.InteractionType.TimelineMarker
             });
+            JumpReceiver.jumpDestinationTimeIgnoreMarkers = 0;
         }
     }
 }

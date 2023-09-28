@@ -195,6 +195,7 @@ MonoBehaviour:
       type: {class: TimelineJumpAction, ns: , asm: Assembly-CSharp}
       data:
         jumpTime: 9.533333
+        triggerNotifications: 0
 --- !u!114 &-7128046418318382546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1809,12 +1810,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     pose:
-      position: {x: -1.0808203, y: 0.68725747}
+      position: {x: -0.72837406, y: 0.01919584}
       radius: 0.15481144
     interactActions:
     - rid: 1984517904080044034
     - rid: 1984517904080044040
-    passThrough: 0
+    passThrough: 1
     priority: 25
     handleColor: {r: 1, g: 0, b: 0, a: 1}
   references:
@@ -1828,6 +1829,7 @@ MonoBehaviour:
       type: {class: TimelineJumpAction, ns: , asm: Assembly-CSharp}
       data:
         jumpTime: 3.966667
+        triggerNotifications: 0
 --- !u!114 &-1556472748997929780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2831,6 +2833,7 @@ MonoBehaviour:
       type: {class: TimelineJumpAction, ns: , asm: Assembly-CSharp}
       data:
         jumpTime: 9.533333
+        triggerNotifications: 0
 --- !u!114 &998587084691358532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3418,9 +3421,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   template:
     pose:
-      position: {x: -1.014006, y: 0.2014738}
-      size: {x: 0.43238205, y: 0.74}
-      zAngle: 4.0806723
+      position: {x: -0.91405433, y: -0.15453982}
+      size: {x: 0.39, y: 0.14}
+      zAngle: 0
     interactActions:
     - rid: 1984517904080044032
     - rid: 1984517904080044033
@@ -3438,6 +3441,7 @@ MonoBehaviour:
       type: {class: TimelineJumpAction, ns: , asm: Assembly-CSharp}
       data:
         jumpTime: 3.966667
+        triggerNotifications: 0
 --- !u!114 &3970831006275710767
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3450,7 +3454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 422c6fe5e695c5e4ba73f454ca87b43c, type: 3}
   m_Name: Interact Action Marker
   m_EditorClassIdentifier: 
-  m_Time: 6.2
+  m_Time: 3.816666666666667
   action:
     rid: 1984517904080044042
   emitOnce: 0
@@ -4162,6 +4166,7 @@ MonoBehaviour:
       type: {class: TimelineJumpAction, ns: , asm: Assembly-CSharp}
       data:
         jumpTime: 14.2
+        triggerNotifications: 0
 --- !u!114 &8646177527735904209
 MonoBehaviour:
   m_ObjectHideFlags: 1

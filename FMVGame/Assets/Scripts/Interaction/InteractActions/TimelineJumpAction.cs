@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 public class TimelineJumpAction : IInteractAction, INotification
 {
     public float jumpTime;
+    public bool triggerNotifications;
 
     public void TriggerAction(InteractionInfo info)
     {
