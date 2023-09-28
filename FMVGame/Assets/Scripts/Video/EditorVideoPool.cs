@@ -17,15 +17,11 @@ public class EditorVideoPool : MonoBehaviour
     [SerializeField]
     private VideoPlayerSizeConfig defaultSizeConfig;
 
-    // We use a queue to make sure the newest instance isn't reset
-    // When we edit the hitbox through timeline, it deletes and recreates the playable
-    // If it reuses the same video from the pool, it'll basically remove the visual the editor is using to trace the hitbox
-    // The queue makes it such that the old instance remains unused, and stays visible
-    private Queue<VideoPlayerHandler> objectPool = new();
+    private Stack<VideoPlayerHandler> objectPool = new();
 
-    private List<VideoPlayerHandler> activeObjects = new();
+    private Dictionary<string, VideoPlayerHandler> activeObjects = new();
 
-    private VideoPlayerHandler heldVideoPlayer;
+    private string softReturnKey = string.Empty;
 
     private void OnEnable()
     {
@@ -44,15 +40,15 @@ public class EditorVideoPool : MonoBehaviour
     {
         Instance = this;
 
-        objectPool = new Queue<VideoPlayerHandler>();
-        activeObjects = new List<VideoPlayerHandler>();
+        objectPool = new Stack<VideoPlayerHandler>();
+        activeObjects = new Dictionary<string, VideoPlayerHandler>();
 
-        heldVideoPlayer = null;
+        softReturnKey = string.Empty;
 
         foreach (var videoPlayer in sourceVideoPlayers)
         {
             videoPlayer.Initialize();
-            objectPool.Enqueue(videoPlayer);
+            objectPool.Push(videoPlayer);
         }
     }
 
@@ -65,30 +61,36 @@ public class EditorVideoPool : MonoBehaviour
         }
     }
 
-    public VideoPlayerHandler GetFromPool()
+    public VideoPlayerHandler GetFromPool(string key)
     {
+        // Already in active objects (e.g from preloading)
+        if (activeObjects.ContainsKey(key))
+        {
+            return activeObjects[key];
+        }
+
+        // Empty
         if (objectPool.Count == 0)
         {
             Debug.LogError("Pool empty, cannot get a new instance!");
             return null;
         }
 
-
-        var instance = objectPool.Dequeue();
-        instance.RenderingSurface.transform.position = new Vector3(0, 0, 0);
-        activeObjects.Add(instance);
+        // New object; add to active pool
+        var instance = objectPool.Pop();
+        activeObjects.Add(key, instance);
         instance.OnRetrievedFromPool();
         return instance;
     }
 
-    public void ReturnToPool(VideoPlayerHandler instance)
+    public void ReturnToPool(string key)
     {
-        var foundInstance = activeObjects.Find(x => x == instance);
-        if (foundInstance != null)
+        activeObjects.TryGetValue(key, out var instance);
+        if (instance != null)
         {
             instance.OnReturnedToPool();
-            activeObjects.Remove(instance);
-            objectPool.Enqueue(instance);
+            activeObjects.Remove(key);
+            objectPool.Push(instance);
         }
         else
         {
@@ -96,20 +98,25 @@ public class EditorVideoPool : MonoBehaviour
         }
     }
 
-    public void ReturnToPoolSoft(VideoPlayerHandler instance)
+    public void ReturnToPoolSoft(string key)
     {
-        var foundInstance = activeObjects.Find(x => x == instance);
-        if (foundInstance != null)
+        activeObjects.TryGetValue(key, out var instance);
+        if (instance != null)
         {
             instance.Pause();
             instance.RenderingSurface.transform.position = new Vector3(0, 0, 1);
-            if (heldVideoPlayer)
-            {
-                activeObjects.Remove(heldVideoPlayer);
-                objectPool.Enqueue(heldVideoPlayer);
-            }
 
-            heldVideoPlayer = instance;
+            if (softReturnKey != key)
+            {
+                activeObjects.TryGetValue(softReturnKey, out var currentSoftInstance);
+                if (currentSoftInstance != null)
+                {
+                    activeObjects.Remove(softReturnKey);
+                    objectPool.Push(currentSoftInstance);
+                }
+
+                softReturnKey = key;
+            }
         }
         else
         {

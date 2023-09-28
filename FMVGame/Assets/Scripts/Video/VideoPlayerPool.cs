@@ -13,7 +13,7 @@ public class VideoPlayerPool : MonoBehaviour
     [SerializeField]
     private uint poolSize;
 
-    private PrefabComponentPool<VideoPlayerHandler> pool;
+    private KeyPrefabComponentPool<VideoPlayerHandler> pool;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class VideoPlayerPool : MonoBehaviour
 
         Instance = this;
 
-        pool = new PrefabComponentPool<VideoPlayerHandler>(prefab, poolSize, transform);
+        pool = new KeyPrefabComponentPool<VideoPlayerHandler>(prefab, poolSize, transform);
 
         foreach (var videoPlayer in pool.GetAll())
         {
@@ -33,7 +33,7 @@ public class VideoPlayerPool : MonoBehaviour
         }
     }
 
-    public VideoPlayerHandler GetVideoPlayer() => pool.GetFromPool().SetSizing(defaultSizeConfig);
+    public VideoPlayerHandler GetVideoPlayer(string key) => pool.GetFromPool(key).SetSizing(defaultSizeConfig);
 
-    public void ReturnVideoPlayer(VideoPlayerHandler videoPlayerHandler) => pool.ReturnToPool(videoPlayerHandler);
+    public void ReturnVideoPlayer(string key) => pool.ReturnToPool(key);
 }

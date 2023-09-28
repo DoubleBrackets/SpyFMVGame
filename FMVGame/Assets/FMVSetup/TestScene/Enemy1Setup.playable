@@ -859,6 +859,9 @@ MonoBehaviour:
   m_Time: 4.016666666666667
   action:
     rid: 1984517402819821575
+  emitOnce: 0
+  emitInEditor: 0
+  retroactive: 0
   references:
     version: 2
     RefIds:
@@ -878,11 +881,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e363dcc85f5fb4db817c0bf16ac298, type: 3}
   m_Name: VideoScriptPlayableAsset
   m_EditorClassIdentifier: 
-  videoClip: {fileID: 32900000, guid: 5706472ce43461a4e9d53ba38ec9c07e, type: 3}
-  mute: 0
-  loop: 0
-  preloadTime: 0.3
-  clipInTime: 0
+  template:
+    videoClip: {fileID: 32900000, guid: 5706472ce43461a4e9d53ba38ec9c07e, type: 3}
+    mute: 0
+    loop: 1
+    holdTimeOffset: 0
+    preloadTime: 2.5
+    clipInTime: 0.1
 --- !u!114 &-2857794756215308037
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -988,6 +993,9 @@ MonoBehaviour:
   m_Time: 9.914705058311332
   action:
     rid: 1984517402819821577
+  emitOnce: 0
+  emitInEditor: 0
+  retroactive: 0
   references:
     version: 2
     RefIds:
@@ -1191,6 +1199,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1984517402819821579
       type: {class: PlaySegmentAction, ns: , asm: Assembly-CSharp}
       data:
@@ -1316,6 +1326,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1984517402819821574
       type: {class: PlaySegmentAction, ns: , asm: Assembly-CSharp}
       data:

@@ -31,15 +31,17 @@ namespace FMVCore.Video
 
         public void PrepareVideo()
         {
+            if (!initialSetup)
+            {
+                Debug.Log($"{"Grabbing " + videoClip.originalPath}");
+                GetVideoHandlerFromPool(videoClip.originalPath);
+                videoPlayerHandler.SetupPlayerWithClip(videoClip, loop, mute);
+                initialSetup = true;
+            }
+
             if (videoPlayerHandler == null || videoClip == null)
             {
                 return;
-            }
-
-            if (!initialSetup)
-            {
-                videoPlayerHandler.SetupPlayerWithClip(videoClip, loop, mute);
-                initialSetup = true;
             }
 
             if (!isPreparing && !videoPlayer.isPrepared)
@@ -89,6 +91,12 @@ namespace FMVCore.Video
                 return;
             }
 
+            // Stricter return to pool during play mode
+            if (Application.isPlaying)
+            {
+                ReturnVideoHandlerToPool(playable, videoClip.originalPath);
+            }
+
             PauseVideo();
         }
 
@@ -107,46 +115,53 @@ namespace FMVCore.Video
 
         public override void OnPlayableCreate(Playable playable)
         {
-            GetVideoHandlerFromPool();
         }
 
 
         public override void OnPlayableDestroy(Playable playable)
         {
-            ReturnVideoHandlerToPool(playable);
+            if (videoPlayerHandler == null)
+            {
+                return;
+            }
+
+            ReturnVideoHandlerToPool(playable, videoClip.originalPath);
         }
 
 
-        private void GetVideoHandlerFromPool()
+        private void GetVideoHandlerFromPool(string key)
         {
             if (Application.isPlaying)
             {
-                videoPlayerHandler = VideoPlayerPool.Instance.GetVideoPlayer();
+                videoPlayerHandler = VideoPlayerPool.Instance.GetVideoPlayer(key);
             }
             else
             {
-                videoPlayerHandler = EditorVideoPool.Instance.GetFromPool();
+                videoPlayerHandler = EditorVideoPool.Instance.GetFromPool(key);
             }
         }
 
-        private void ReturnVideoHandlerToPool(Playable playable)
+        private void ReturnVideoHandlerToPool(Playable playable, string key)
         {
+            Debug.Log($"{"Returning " + videoClip.originalPath}");
             if (Application.isPlaying)
             {
-                VideoPlayerPool.Instance.ReturnVideoPlayer(videoPlayerHandler);
+                VideoPlayerPool.Instance.ReturnVideoPlayer(key);
             }
             else
             {
                 if (playable.GetTime() > 0 && playable.GetTime() <= playable.GetDuration())
                 {
-                    EditorVideoPool.Instance.ReturnToPoolSoft(videoPlayerHandler);
+                    EditorVideoPool.Instance.ReturnToPoolSoft(key);
                 }
                 else
                 {
-                    EditorVideoPool.Instance.ReturnToPool(videoPlayerHandler);
+                    EditorVideoPool.Instance.ReturnToPool(key);
                 }
             }
 
+            initialSetup = false;
+            isPreparing = false;
             videoPlayerHandler = null;
         }
 

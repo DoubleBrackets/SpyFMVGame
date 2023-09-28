@@ -11,6 +11,8 @@ public class VideoPlayerHandler : MonoBehaviour, IPoolable
     [field: SerializeField]
     public VideoPlayer VideoPlayer { get; private set; }
 
+    private bool isSetUp;
+
     [Button("Play")]
     public void Play()
     {
@@ -31,8 +33,21 @@ public class VideoPlayerHandler : MonoBehaviour, IPoolable
         VideoPlayer.Pause();
     }
 
+    /// <summary>
+    /// If this handler has not been set up yet, set it up with the given clip
+    /// Player handlers are intended to be set up only once; if you want to set it up again with a different clip
+    /// use a new instance of a video player handler from the pool
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="loop"></param>
+    /// <param name="mute"></param>
     public void SetupPlayerWithClip(VideoClip clip, bool loop, bool mute)
     {
+        if (isSetUp)
+        {
+            return;
+        }
+
         VideoPlayer.source = VideoSource.VideoClip;
         VideoPlayer.clip = clip;
         VideoPlayer.playOnAwake = false;
@@ -55,6 +70,8 @@ public class VideoPlayerHandler : MonoBehaviour, IPoolable
                 }
             }
         }
+
+        isSetUp = true;
     }
 
     public void PrepareVideoAtTime(double time, Action<VideoPlayer> prepareComplete = null)
@@ -82,6 +99,7 @@ public class VideoPlayerHandler : MonoBehaviour, IPoolable
 
     public void OnRetrievedFromPool()
     {
+        isSetUp = false;
         gameObject.SetActive(true);
     }
 

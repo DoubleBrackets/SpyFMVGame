@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e363dcc85f5fb4db817c0bf16ac298, type: 3}
   m_Name: VideoScriptPlayableAsset
   m_EditorClassIdentifier: 
-  videoClip: {fileID: 32900000, guid: b8891417f0e5d0d4bb06d4cd78a50712, type: 3}
-  mute: 0
-  loop: 1
-  preloadTime: 0.3
-  clipInTime: 0.35
+  template:
+    videoClip: {fileID: 32900000, guid: b8891417f0e5d0d4bb06d4cd78a50712, type: 3}
+    mute: 0
+    loop: 1
+    holdTimeOffset: 0
+    preloadTime: 2.5
+    clipInTime: 0.1
 --- !u!114 &-6130653747634242855
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +126,9 @@ MonoBehaviour:
   m_Time: 2.6374797048047185
   action:
     rid: 1984517402819821578
+  emitOnce: 0
+  emitInEditor: 0
+  retroactive: 0
   references:
     version: 2
     RefIds:
